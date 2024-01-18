@@ -11,7 +11,7 @@ const db = mysql.createConnection(
         password: '',
         database: 'employees_db'
     },
-    console.log('Connected to the employees_db database.')
+    console.log('Connected to the staff_db database.')
 );
 
 
@@ -27,6 +27,8 @@ prompt([
             'View all employees',
             'Add a department',
             'Add a role',
+            'Add an employee',
+            'Update an employee role',
             'Exit'
         ]
     }]);
