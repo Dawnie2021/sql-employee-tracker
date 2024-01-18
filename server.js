@@ -4,15 +4,15 @@ const prompt = inquirer.createPromptModule();
 
 
 // connect to database
-// const db = mysql.createConnection(
-//     {
-//         host: 'localhost',
-//         user: 'root',
-//         password: '',
-//         database: 'employees_db'
-//     },
-//     console.log('Connected to the employees_db database.')
-// );
+const db = mysql.createConnection(
+    {
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'employees_db'
+    },
+    console.log('Connected to the employees_db database.')
+);
 
 
 
