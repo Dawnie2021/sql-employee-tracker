@@ -9,7 +9,7 @@ const db = mysql.createConnection(
         host: 'localhost',
         user: 'root',
         password: '',
-        database: 'employees_db'
+        database: 'staff_db'
     },
     console.log('Connected to the staff_db database.')
 );
@@ -51,40 +51,40 @@ const init = () => {
                     init();
                 });
 
-            if (answer.view === 'Add a department') {
-                inquirer.prompt({
-                    type: 'input',
-                    name: 'department',
-                    message: 'What is the name of the department?'
-                })
-            }
+            // if (answer.view === 'Add a department') {
+            //     inquirer.prompt({
+            //         type: 'input',
+            //         name: 'department',
+            //         message: 'What is the name of the department?'
+            //     })
+            // }
 
-            if (answer.view === 'Add a role') {
-                inquirer.prompt({
-                    type: 'input',
-                    name: 'role',
-                    message: 'What is the name of the role?',
+            // if (answer.view === 'Add a role') {
+            //     inquirer.prompt({
+            //         type: 'input',
+            //         name: 'role',
+            //         message: 'What is the name of the role?',
                 
 
 
-                    type: 'input',
-                    name: 'salary',
-                    message: 'What is the salary?',
+            //         type: 'input',
+            //         name: 'salary',
+            //         message: 'What is the salary?',
 
                 
-                })
+            //     })
 
-            }
+            // }
 
-            if (answer.view === 'Add an employee') {
-                inquirer.prompt({
-                    type: 'input',
-                    name: 'employee',
-                    message: 'What is the name of the employee'
-                })
-            }
+            // if (answer.view === 'Add an employee') {
+            //     inquirer.prompt({
+            //         type: 'input',
+            //         name: 'employee',
+            //         message: 'What is the name of the employee'
+            //     })
+            // }
 
-            if (answer.view === 'Update an employee role')
+            // if (answer.view === 'Update an employee role')
         }
         )
 };
