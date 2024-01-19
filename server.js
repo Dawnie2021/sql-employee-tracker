@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-const prompt = inquirer.createPromptModule();
+require('console.table');
 
 
 // connect to database
@@ -14,13 +14,13 @@ const db = mysql.createConnection(
     console.log('Connected to the staff_db database.')
 );
 
-
+const prompt = inquirer.createPromptModule();
 
 prompt([
     {
-        type: 'list',
+        type: 'rawlist',
         message: 'What would you like to do?',
-        name: 'choices',
+        name: 'view',
         choices: [
             'View all departments',
             'View all roles',
