@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-// require('console.table');
+require('console.table');
 
 
 // connect to database
@@ -15,7 +15,7 @@ const db = mysql.createConnection(
 );
 
 const prompt = inquirer.createPromptModule();
-
+const init = () => {
 prompt(
     {
         type: 'list',
@@ -35,24 +35,31 @@ prompt(
             if (answer.view === 'All departments')
         db.query('SELECT * FROM department', (error, departments) => {
             if (error) console.error(error);
-            console.log(departments)
+            console.table(departments)
+            init(); 
         });
         if (answer.view === 'All roles')
         db.query('SELECT * FROM role', (error, roles) => {
             if (error) console.error(error);
-            console.log(roles)
+            console.table(roles)
+            init(); 
         });
         if (answer.view === 'All employees')
         db.query('SELECT * FROM employee', (error, employees) => {
             if (error) console.error(error);
-            console.log(employees)
+            console.table(employees)
+            init(); 
         });
+
+        Exit:() => {
+            process.exit();
+        }
         
         
     })
         
-        
-        
+}
+       init(); 
 
         
         
