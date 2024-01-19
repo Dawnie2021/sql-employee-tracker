@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-require('console.table');
+// require('console.table');
 
 
 // connect to database
@@ -16,19 +16,47 @@ const db = mysql.createConnection(
 
 const prompt = inquirer.createPromptModule();
 
-prompt([
+prompt(
     {
-        type: 'rawlist',
+        type: 'list',
         message: 'What would you like to do?',
         name: 'view',
         choices: [
-            'View all departments',
-            'View all roles',
-            'View all employees',
-            'Add a department',
-            'Add a role',
-            'Add an employee',
-            'Update an employee role',
-            'Exit'
-        ]
-    }]);
+            'All departments',
+            'All roles',
+            'All employees',
+            // 'Add a department',
+            // 'Add a role',
+            // 'Add an employee',
+            // 'Update an employee role',
+            'Exit']
+    }).then((answer) => {
+       
+            if (answer.view === 'All departments')
+        db.query('SELECT * FROM department', (error, departments) => {
+            if (error) console.error(error);
+            console.log(departments)
+        });
+        if (answer.view === 'All roles')
+        db.query('SELECT * FROM role', (error, roles) => {
+            if (error) console.error(error);
+            console.log(roles)
+        });
+        if (answer.view === 'All employees')
+        db.query('SELECT * FROM employee', (error, employees) => {
+            if (error) console.error(error);
+            console.log(employees)
+        });
+        
+        
+    })
+        
+        
+        
+
+        
+        
+       
+      
+  
+  
