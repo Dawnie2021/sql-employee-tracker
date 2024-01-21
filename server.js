@@ -13,18 +13,19 @@ const db = mysql.createConnection(
     },
     console.log('Connected to the staff_db database.')
 );
-
+// created a prompt 
 const prompt = inquirer.createPromptModule();
+// created a function to start the program
 const init = () => {
     prompt(
         {
-            type: 'list',
+            type: 'rawlist',
             message: 'What would you like to do?',
             name: 'view',
             choices: [
-                'All departments',
-                'All roles',
-                'All employees',
+                'View all departments',
+                'View all roles',
+                'View all employees',
                 'Add a department',
                 'Add a role',
                 'Add an employee',
@@ -32,24 +33,31 @@ const init = () => {
                 'Exit']
         }).then((answer) => {
 
-            if (answer.view === 'All departments')
+            if (answer.view === 'View all departments')
                 db.query('SELECT * FROM department', (error, departments) => {
                     if (error) console.error(error);
                     console.table(departments)
                     init();
                 });
-            if (answer.view === 'All roles')
+            if (answer.view === 'View all roles')
                 db.query('SELECT * FROM role', (error, roles) => {
                     if (error) console.error(error);
                     console.table(roles)
                     init();
                 });
-            if (answer.view === 'All employees')
+            if (answer.view === 'View all employees')
                 db.query('SELECT * FROM employee', (error, employees) => {
                     if (error) console.error(error);
                     console.table(employees)
                     init();
                 });
+
+                if (answer.view === 'Exit') {
+                    process.exit();
+                }
+               
+
+
 
             // if (answer.view === 'Add a department') {
             //     inquirer.prompt({
@@ -83,15 +91,18 @@ const init = () => {
             //         message: 'What is the name of the employee'
             //     })
             // }
-
-            // if (answer.view === 'Update an employee role')
+                
+            
+            // process.exit();
         }
         )
 };
+
+
 init();
 
 
 
-
+ 
 
 
