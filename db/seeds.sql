@@ -17,14 +17,14 @@ VALUES
 ('HR manager', 69000, 4);
 
 
-INSERT INTO employee(first_name, last_name, job_title, department, salary, manager_name)
+INSERT INTO employee(first_name, last_name, manager_id, role_id)
 VALUES
-('Katie', 'Wynn', 'Front-end developer', 'Development', 72000, 'Jade Black'),
-('Jade', 'Black', 'Software engineer', 'Development', 86000, 'Null'),
-('Amber', 'Smith', 'HR manager', 'Human Resources', 69000, 'Null'),
-('Carlina', 'Brown', 'Project manager', 'Project Management', 101000, 'Amber Smith'),
-('Gianna', 'Chung', 'Business analyst', 'Project Management', 93000, 'Carlina Brown'),
-('Joe', 'Chu', 'QA Engineer', 'Quality Assurance', 81000, 'Jade Black');
+('Katie', 'Wynn', NULL, 1),
+('Jade', 'Black', NULL, 2),
+('Amber', 'Smith', 1, 3),
+('Carlina', 'Brown', 2, 4),
+('Gianna', 'Chung', 3, 2),
+('Joe', 'Chu', 3, 3);
 
 
 

@@ -9,12 +9,12 @@ CREATE TABLE department (
     name VARCHAR(30) NOT NULL
 );
 -- created a role table
-CREATE TABLE role (
+CREATE TABLE `role` (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(30),
     salary DECIMAL,
     department_id INT,
-    FOREIGN KEY (department_id)
+    FOREIGN KEY(department_id)
     REFERENCES department(id)
     ON DELETE SET NULL
 );
@@ -23,14 +23,10 @@ CREATE TABLE employee (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
-    job_title VARCHAR(30),
-    department VARCHAR(30),
-    salary DECIMAL,
-     manager_name VARCHAR(30)
-    -- FOREIGN KEY (role_id)
-    -- REFERENCES role(id)
-    -- ON DELETE SET NULL
-    -- FOREIGN KEY (manager_name)
-    -- REFERENCES employee(id)
-    -- ON DELETE SET NULL
+    manager_id INT,
+    role_id INT,
+    FOREIGN KEY(role_id)
+    REFERENCES `role`(id),
+    FOREIGN KEY(manager_id)
+    REFERENCES employee(id)
 );

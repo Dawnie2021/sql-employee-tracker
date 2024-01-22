@@ -76,13 +76,13 @@ const init = () => {
             }
 
             if (answer.view === 'Add a role') {
-                db.promise().query('SELECT department.id FROM department')
+                db.promise().query('SELECT id, name FROM department')
                     .then(([answer]) => {
-                        const deptArr = answer.map(dept => dept.id)
+                        const deptArr = answer.map(dept => ({ name: dept.name, value: dept.id }))
                         inquirer.prompt([
                             {
                                 type: 'input',
-                                name: 'role',
+                                name: 'title',
                                 message: 'What is the name of the role?',
 
 
@@ -97,16 +97,18 @@ const init = () => {
                             {
 
                                 type: 'list',
-                                name: 'department',
+                                name: 'department_id',
                                 message: 'What is the department?',
                                 choices: deptArr
                             }
                         ])
                             .then(answer => {
-                                const { role, salary, department } = answer
-                                db.promise().query('INSERT INTO role (title, salary, department_id) VALUE (?,?,?)', [role, salary, department])
-                                    .then(answer => console.log('Adding new role'))
-                                    init();
+                                db.promise().query('INSERT INTO role SET ?', answer)
+                                    .then(() => {
+                                        console.log('Adding new role')
+                                        init();
+                                    })
+                                    .catch((err) => console.error(err));
                             })
                     })
 
@@ -117,14 +119,14 @@ const init = () => {
                 inquirer.prompt([
                     {
                         type: 'input',
-                        name: 'employee',
+                        name: 'first_name',
                         message: 'What is the first name of the employee?'
 
                     },
 
                     {
                         type: 'input',
-                        name: 'employee',
+                        name: 'last_name',
                         message: 'What is the last name of the employee?'
 
 
@@ -132,7 +134,7 @@ const init = () => {
 
                     {
                         type: 'input',
-                        name: 'employee',
+                        name: 'role_id',
                         message: 'What is the role of the employee?'
 
 
@@ -140,7 +142,7 @@ const init = () => {
 
                     {
                         type: 'input',
-                        name: 'employee',
+                        name: 'manager_id',
                         message: 'Who is the manager of the employee?'
 
                     }
