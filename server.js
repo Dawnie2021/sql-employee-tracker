@@ -52,48 +52,90 @@ const init = () => {
                     init();
                 });
 
-                if (answer.view === 'Exit') {
-                    process.exit();
-                }
-               
+            if (answer.view === 'Exit') {
+                process.exit();
+            }
 
 
 
-            // if (answer.view === 'Add a department') {
-            //     inquirer.prompt({
-            //         type: 'input',
-            //         name: 'department',
-            //         message: 'What is the name of the department?'
-            //     })
-            // }
 
-            // if (answer.view === 'Add a role') {
-            //     inquirer.prompt({
-            //         type: 'input',
-            //         name: 'role',
-            //         message: 'What is the name of the role?',
-                
+            if (answer.view === 'Add a department') {
+                inquirer.prompt({
+                    type: 'input',
+                    name: 'department',
+                    message: 'What is the name of the department?'
+                })
+                    .then(answer => {
+                        const { department } = answer
+
+                        db.promise().query('INSERT INTO department (name) VALUE(?) ', department)
+                            .then(answer => console.log(answer))
+
+                    })
+            }
+
+            if (answer.view === 'Add a role') {
+                db.promise().query('SELECT department.id FROM department')
+                    .then(([answer]) => {
+                        const deptArr = answer.map(dept => dept.id)
+                        inquirer.prompt([
+                            {
+                                type: 'input',
+                                name: 'role',
+                                message: 'What is the name of the role?',
 
 
-            //         type: 'input',
-            //         name: 'salary',
-            //         message: 'What is the salary?',
+                            },
+                            {
+                                type: 'input',
+                                name: 'salary',
+                                message: 'What is the salary?',
 
-                
-            //     })
+                            },
 
-            // }
+                            {
 
-            // if (answer.view === 'Add an employee') {
-            //     inquirer.prompt({
-            //         type: 'input',
-            //         name: 'employee',
-            //         message: 'What is the name of the employee'
-            //     })
-            // }
-                
-            
-            // process.exit();
+                                type: 'list',
+                                name: 'department',
+                                message: 'What is the department?',
+                                choices: deptArr
+                            }
+                        ])
+                        .then(answer => {
+                            const { role, salary, department} = answer
+                            db.promise().query('INSERT INTO role (title, salary, department_id) VALUE (?,?,?)', [role, salary, department])
+                            .then(answer => console.log(answer))
+                        })
+                    })
+
+            }
+
+            //     if (answer.view === 'Add an employee') {
+            //         inquirer.prompt({
+            //             type: 'input',
+            //             name: 'employee',
+            //             message: 'What is the first name of the employee'
+
+            //             type: 'input',
+            //             name: 'employee',
+            //             message: 'What is the last name of the employee'
+
+            //             type: 'input',
+            //             name: 'employee',
+            //             message: 'What is the role of the employee'
+
+            //             type: 'input',
+            //             name: 'employee',
+            //             message: 'Who is the manager of the employee'
+
+            //             type: 'input',
+            //             name: 'employee',
+            //             message: 'What is the role of the employee'
+            //         })
+            //     }
+
+
+
         }
         )
 };
@@ -103,6 +145,6 @@ init();
 
 
 
- 
+
 
 
