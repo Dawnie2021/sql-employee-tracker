@@ -69,7 +69,8 @@ const init = () => {
                         const { department } = answer
 
                         db.promise().query('INSERT INTO department (name) VALUE(?) ', department)
-                            .then(answer => console.log(answer))
+                            .then(answer => console.log('Adding new department'))
+                            init();
 
                     })
             }
@@ -101,41 +102,52 @@ const init = () => {
                                 choices: deptArr
                             }
                         ])
-                        .then(answer => {
-                            const { role, salary, department} = answer
-                            db.promise().query('INSERT INTO role (title, salary, department_id) VALUE (?,?,?)', [role, salary, department])
-                            .then(answer => console.log(answer))
-                        })
+                            .then(answer => {
+                                const { role, salary, department } = answer
+                                db.promise().query('INSERT INTO role (title, salary, department_id) VALUE (?,?,?)', [role, salary, department])
+                                    .then(answer => console.log('Adding new role'))
+                                    init();
+                            })
                     })
 
             }
 
-            //     if (answer.view === 'Add an employee') {
-            //         inquirer.prompt({
-            //             type: 'input',
-            //             name: 'employee',
-            //             message: 'What is the first name of the employee'
+            if (answer.view === 'Add an employee') {
+                
+                inquirer.prompt([
+                    {
+                        type: 'input',
+                        name: 'employee',
+                        message: 'What is the first name of the employee?'
 
-            //             type: 'input',
-            //             name: 'employee',
-            //             message: 'What is the last name of the employee'
+                    },
 
-            //             type: 'input',
-            //             name: 'employee',
-            //             message: 'What is the role of the employee'
-
-            //             type: 'input',
-            //             name: 'employee',
-            //             message: 'Who is the manager of the employee'
-
-            //             type: 'input',
-            //             name: 'employee',
-            //             message: 'What is the role of the employee'
-            //         })
-            //     }
+                    {
+                        type: 'input',
+                        name: 'employee',
+                        message: 'What is the last name of the employee?'
 
 
+                    },
 
+                    {
+                        type: 'input',
+                        name: 'employee',
+                        message: 'What is the role of the employee?'
+
+
+                    },
+
+                    {
+                        type: 'input',
+                        name: 'employee',
+                        message: 'Who is the manager of the employee?'
+
+                    }
+
+                  
+                ])
+            }
         }
         )
 };
