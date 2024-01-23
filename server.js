@@ -14,6 +14,46 @@ const db = mysql.createConnection(
 );
 // created a prompt
 const prompt = inquirer.createPromptModule();
+
+const saveEmployees = (answer) => {
+  db.promise().query("INSERT INTO employee SET ?", answer)
+    .then((result) => {
+      console.log("Adding new employee")
+      init();
+    });
+
+};
+
+const addAnEmployee = (roles, managers) => {
+  const questions = [
+    {
+      type: "input",
+      name: "first_name",
+      message: "What is the first name of the employee?",
+    },
+    {
+      type: "input",
+      name: "last_name",
+      message: "What is the last name of the employee?",
+    },
+    {
+      type: "list",
+      name: "role_id",
+      message: "What is the role of the employee?",
+      choices: roles
+
+    },
+    {
+      type: "list",
+      name: "manager_id",
+      message: "Who is the manager of the employee?",
+      choices: managers
+    }
+  ];
+
+  inquirer.prompt(questions).then(saveEmployees);
+}
+
 // created a function to start the program
 const init = () => {
   prompt({
@@ -59,10 +99,10 @@ const init = () => {
 
     if (answer.view === "Add a department") {
       inquirer.prompt({
-          type: "input",
-          name: "department",
-          message: "What is the name of the department?",
-        })
+        type: "input",
+        name: "department",
+        message: "What is the name of the department?",
+      })
         .then((answer) => {
           const { department } = answer;
 
@@ -112,48 +152,41 @@ const init = () => {
     }
 
     if (answer.view === "Add an employee") {
-      // db.promise().query("SELECT first_name, last_name, manager_id, role_id, FROM employee")
-      //   .then(([answer]) => {
-      //     const roleArr = answer.map((role) => ({
-      //       title: role.title,
-      //       value: role.id,
-      //     }));
-          inquirer.prompt([
-            {
-              type: "input",
-              name: "first_name",
-              message: "What is the first name of the employee?",
-            },
-            {
-              type: "input",
-              name: "last_name",
-              message: "What is the last name of the employee?",
-            },
-            {
-              type: "input",
-              name: "role_id",
-              message: "What is the role of the employee?",
-            },
-            {
-              type: "input",
-              name: "manager_id",
-              message: "Who is the manager of the employee?",
-            }
-          ]);   
-        
-    
-        // .then((answer) => {
-        //   db.promise()
-        //     .query("INSERT INTO employee SET ?", answer)
-        //     .then(() => {
-        //       console.log("Adding new employee");
-        //       init();
-        //     })
-        //     .catch((err) => console.error(err));
-     
-        }
-      })
-  
+      db.promise().query("SELECT id, title FROM role")
+        .then(([roles]) => {
+          db.promise().query("SELECT id, first_name, last_name FROM employee")
+            .then(([employees]) => {
+              const roleChoices = roles.map((role) => ({
+                name: role.title,
+                value: role.id,
+              }));
+              const managerChoices = employees.map((mgr) => ({
+                name: mgr.first_name + ' '  + mgr.last_name,
+                value: mgr.id,
+              }));
+              addAnEmployee(roleChoices, managerChoices);
+            });
+        });
+
+
     }
+  })
+}
+
+
+
+
+// .then((answer) => {
+//   db.promise()
+//     .query("INSERT INTO employee SET ?", answer)
+//     .then(() => {
+//       console.log("Adding new employee");
+//     })
+//     .catch((err) => console.error(err));
+
+
+
+
+
 
 init();
