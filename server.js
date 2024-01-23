@@ -24,6 +24,7 @@ const saveEmployees = (answer) => {
 
 };
 
+
 const addAnEmployee = (roles, managers) => {
   const questions = [
     {
@@ -67,8 +68,7 @@ const init = () => {
       "Add a department",
       "Add a role",
       "Add an employee",
-      "Update an employee role",
-      "Exit",
+      "Exit"
     ],
   }).then((answer) => {
     if (answer.view === "View all departments") {
@@ -95,7 +95,9 @@ const init = () => {
 
     if (answer.view === "Exit") {
       process.exit();
+      init();
     }
+
 
     if (answer.view === "Add a department") {
       inquirer.prompt({
@@ -111,6 +113,7 @@ const init = () => {
           init();
         });
     }
+
 
     if (answer.view === "Add a role") {
       db.promise()
@@ -145,6 +148,7 @@ const init = () => {
                 .query("INSERT INTO role SET ?", answer)
                 .then(() => {
                   console.log("Adding new role");
+                  init();
                 })
                 .catch((err) => console.error(err));
             });
@@ -161,32 +165,15 @@ const init = () => {
                 value: role.id,
               }));
               const managerChoices = employees.map((mgr) => ({
-                name: mgr.first_name + ' '  + mgr.last_name,
+                name: mgr.first_name + ' ' + mgr.last_name,
                 value: mgr.id,
               }));
               addAnEmployee(roleChoices, managerChoices);
             });
         });
 
-
-    }
-  })
+    };
+  });
 }
-
-
-
-
-// .then((answer) => {
-//   db.promise()
-//     .query("INSERT INTO employee SET ?", answer)
-//     .then(() => {
-//       console.log("Adding new employee");
-//     })
-//     .catch((err) => console.error(err));
-
-
-
-
-
 
 init();
